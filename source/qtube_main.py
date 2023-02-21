@@ -10,7 +10,7 @@
 import sys
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QFile
-from q-tube_app_gui import Ui_MainWindow
+from qtube_app_gui import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
@@ -20,8 +20,10 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
 
 
-    def save(self):
-        self.ui.pushButton.clicked()
+    def button_was_clicked(self):
+        """ testing function """
+        print("button as clicked")
+
 
 
 if __name__ == "__main__":
