@@ -17,8 +17,9 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
         self.ui = Ui_MainWindow()
-        self.ui.setupUi(self)
+        self.ui.pushButton_download.clicked.connect(self.button_was_clicked)
 
+        self.ui.setupUi(self)
 
     def button_was_clicked(self):
         """ testing function """
