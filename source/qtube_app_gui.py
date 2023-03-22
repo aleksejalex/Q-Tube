@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from typing import Optional
 
+import PySide6
 ################################################################################
 ## Form generated from reading UI file 'q-tube_app_gui.ui'
 ##
@@ -21,16 +23,25 @@ from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QMainWind
                                QSizePolicy, QStatusBar, QVBoxLayout, QWidget)
 
 
-class Ui_MainWindow(object):
+class Ui_MainWindow(QMainWindow):
+    def __init__(self, parent: Optional[PySide6.QtWidgets.QWidget] = ..., flags: PySide6.QtCore.Qt.WindowType = ...):
+        super().__init__(parent, flags)
+        self.actionNew = QAction(QMainWindow)
+        self.actionRedownload = QAction(QMainWindow)
+        self.actionQuit = QAction(QMainWindow)
+        self.centralwidget = QWidget(QMainWindow)
+        self.pushButton_download = QPushButton(self.centralwidget)
+
+
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(783, 530)
-        self.actionNew = QAction(MainWindow)
+        #self.actionNew = QAction(MainWindow)
         self.actionNew.setObjectName(u"actionNew")
-        self.actionRedownload = QAction(MainWindow)
+        #self.actionRedownload = QAction(MainWindow)
         self.actionRedownload.setObjectName(u"actionRedownload")
-        self.actionQuit = QAction(MainWindow)
+        #self.actionQuit = QAction(MainWindow)
         self.actionQuit.setObjectName(u"actionQuit")
         self.actionInfo_about_Q_Tube = QAction(MainWindow)
         self.actionInfo_about_Q_Tube.setObjectName(u"actionInfo_about_Q_Tube")
@@ -91,7 +102,6 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
-
     # setupUi
 
     def retranslateUi(self, MainWindow):
