@@ -69,18 +69,31 @@ class YouTubePlayer(QWidget):
         """
             tba
         """
-        # Get video with stream
+        if self.curr_video_link is None or self.curr_video_link == "":
+            raise BaseException("No link provided!")
+        else:
+            # Get video with stream
 
-        # Download file
+            # Download file
+            url_chameleon = 'https://www.youtube.com/watch?v=VtFRWaC-aU4'
+            video_obj = pytube.YouTube(url_chameleon)
 
-        # Choose where to save it
-        # Open a file dialog to get the filename and path to save the file
-        filename, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt)")
+            print(video_obj.streams.filter(file_extension='mp4', res="720p"))
 
-        # If a filename was selected, write the contents of the text area to the file
-        # if filename:
-        #     with open(filename, "w") as f:
-        #         f.write(self.text_area.toPlainText())
+            # this will print out all possibilities, select that stream, which suits you and identify it by its index number
+
+            video_stream = video_obj.streams.get_by_itag(22)  # that number you can get with previous line of the code
+            # video_stream.download(filename="title_of_the_video.mp4")
+            print(video_obj.title)
+
+            # Choose where to save it
+            # Open a file dialog to get the filename and path to save the file
+            filename, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt)")
+
+            # If a filename was selected, write the contents of the text area to the file
+            # if filename:
+            #     with open(filename, "w") as f:
+            #         f.write(self.text_area.toPlainText())
 
 
 
@@ -98,7 +111,6 @@ class YouTubePlayer(QWidget):
         self.curr_video_link = id
 
     def about_qtube(self):
-
         pass
 
 
