@@ -11,6 +11,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from pytube import extract
+import pytube
 
 
 class YouTubePlayer(QWidget):
@@ -71,7 +72,7 @@ class YouTubePlayer(QWidget):
         # Get video with stream
 
         # Download file
-        
+
         # Choose where to save it
         # Open a file dialog to get the filename and path to save the file
         filename, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt)")
