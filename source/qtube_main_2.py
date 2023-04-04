@@ -13,7 +13,7 @@ from PySide6.QtCore import QFile
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
-    window = MainWindow()
+    window = QMainWindow()
     window.show()
 
     sys.exit(app.exec())

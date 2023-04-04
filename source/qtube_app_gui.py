@@ -32,16 +32,15 @@ class Ui_MainWindow(QMainWindow):
         self.centralwidget = QWidget(QMainWindow)
         self.pushButton_download = QPushButton(self.centralwidget)
 
-
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(783, 530)
-        #self.actionNew = QAction(MainWindow)
+        # self.actionNew = QAction(MainWindow)
         self.actionNew.setObjectName(u"actionNew")
-        #self.actionRedownload = QAction(MainWindow)
+        # self.actionRedownload = QAction(MainWindow)
         self.actionRedownload.setObjectName(u"actionRedownload")
-        #self.actionQuit = QAction(MainWindow)
+        # self.actionQuit = QAction(MainWindow)
         self.actionQuit.setObjectName(u"actionQuit")
         self.actionInfo_about_Q_Tube = QAction(MainWindow)
         self.actionInfo_about_Q_Tube.setObjectName(u"actionInfo_about_Q_Tube")
@@ -102,6 +101,7 @@ class Ui_MainWindow(QMainWindow):
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -115,8 +115,8 @@ class Ui_MainWindow(QMainWindow):
         self.pushButton_quit.setText(QCoreApplication.translate("MainWindow", u"Quit", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
         self.menuAbout.setTitle(QCoreApplication.translate("MainWindow", u"About", None))
-    # retranslateUi
 
+    # retranslateUi
 
     def the_buton_was_clickedd(self):
         print("boton clicked (inside gui class)")

@@ -1,0 +1,48 @@
+"""
+Question:
+Answer:
+
+20230321
+"""
+
+import sys
+from PySide6.QtCore import Qt, QUrl
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton
+from PySide6.QtWebEngineWidgets import QWebEngineView
+
+
+class YouTubePlayer(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        # Set window properties
+        self.setWindowTitle("My Own YouTube Player")
+        self.setWindowIcon(QIcon("youtube.png"))
+        self.setMinimumSize(640, 480)
+
+        # Create web engine view widget
+        self.webview = QWebEngineView(self)
+        self.webview.setUrl(QUrl("https://www.youtube.com/embed/nE_MF2fwbA4"))  # Khrennikov video
+
+        # Create 'adress bar'
+        self.adress_bar = None
+        # Create buttons
+        self.download_btn = QPushButton(text="Download")
+
+
+        # Create layout
+        layout = QVBoxLayout()
+        layout.addWidget(self.webview)
+        layout.addWidget(self.download_btn)
+
+        self.setLayout(layout)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+
+    player = YouTubePlayer()
+    player.show()
+
+    sys.exit(app.exec())
