@@ -11,7 +11,7 @@ from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from pytube import extract
-import pytube
+import pytube as pt
 
 
 class YouTubePlayer(QWidget):
@@ -23,11 +23,11 @@ class YouTubePlayer(QWidget):
         self.setWindowIcon(QIcon("youtube.png"))
         self.setMinimumSize(640, 480)
 
-        self.curr_video_link = None
+        self.curr_video_link = ""
 
         # Create web engine view widget
         self.webview = QWebEngineView(self)
-        self.webview.setUrl(QUrl("https://www.youtube.com/embed/nE_MF2fwbA4"))  # Khrennikov video
+        #self.webview.setUrl(QUrl("https://www.youtube.com/embed/nE_MF2fwbA4"))  # Khrennikov video
         self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))
 
         # Create 'address bar'
@@ -73,29 +73,26 @@ class YouTubePlayer(QWidget):
             raise BaseException("No link provided!")
         else:
             # Get video with stream
-
             # Download file
             url_chameleon = 'https://www.youtube.com/watch?v=VtFRWaC-aU4'
-            video_obj = pytube.YouTube(url_chameleon)
-
+            print(type(self.curr_video_link))
+            video_obj = pt.YouTube(self.curr_video_link)
             print(video_obj.streams.filter(file_extension='mp4', res="720p"))
-
-            # this will print out all possibilities, select that stream, which suits you and identify it by its index number
-
+            # this will print out all possibilities, select that stream, which suits you and identify it by its index
+            # number
             video_stream = video_obj.streams.get_by_itag(22)  # that number you can get with previous line of the code
             # video_stream.download(filename="title_of_the_video.mp4")
             print(video_obj.title)
-
             # Choose where to save it
             # Open a file dialog to get the filename and path to save the file
             filename, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt)")
-
             # If a filename was selected, write the contents of the text area to the file
             # if filename:
             #     with open(filename, "w") as f:
             #         f.write(self.text_area.toPlainText())
-
-
+            pass
+        pass
+    pass
 
     def show_video(self):
         """
