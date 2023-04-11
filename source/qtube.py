@@ -6,12 +6,15 @@ Answer:
 """
 
 import sys
+
+from PySide6 import QtWidgets
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from pytube import extract
 import pytube as pt
+
 
 
 class YouTubePlayer(QWidget):
@@ -42,7 +45,7 @@ class YouTubePlayer(QWidget):
         # Connect events to buttons
         self.btn_download.clicked.connect(self.download_video)
         self.btn_show.clicked.connect(self.show_video)
-
+        self.btn_about.clicked.connect(self.about_qtube)
         self.btn_quit.clicked.connect(self.quit_qtube)
 
         # Create layout(s)
@@ -65,31 +68,37 @@ class YouTubePlayer(QWidget):
 
         self.setLayout(layout)
 
+    def offer_streams(self, video_obj):
+        # todo impl
+        id_of_stream = 0
+
+        return id_of_stream
+
     def download_video(self):
         """
             tba
         """
         if self.curr_video_link is None or self.curr_video_link == "":
-            raise BaseException("No link provided!")
+            #raise BaseException("No link provided!")
+            msgBox = QtWidgets.QMessageBox()
+            msgBox.setText("No link provided!")
+            msgBox.exec()
         else:
             # Get video with stream
             # Download file
-            url_chameleon = 'https://www.youtube.com/watch?v=VtFRWaC-aU4'
+            # url_chameleon = 'https://www.youtube.com/watch?v=VtFRWaC-aU4'
             print(type(self.curr_video_link))
             video_obj = pt.YouTube(self.curr_video_link)
-            print(video_obj.streams.filter(file_extension='mp4', res="720p"))
             # this will print out all possibilities, select that stream, which suits you and identify it by its index
             # number
-            video_stream = video_obj.streams.get_by_itag(22)  # that number you can get with previous line of the code
+            id_of_stream = self.offer_streams(video_obj)
+            video_stream = video_obj.streams.get_by_itag(134)  # that number you can get with previous line of the code
             # video_stream.download(filename="title_of_the_video.mp4")
             print(video_obj.title)
             # Choose where to save it
             # Open a file dialog to get the filename and path to save the file
-            filename, _ = QFileDialog.getSaveFileName(self, "Save File", "", "Text Files (*.txt)")
-            # If a filename was selected, write the contents of the text area to the file
-            # if filename:
-            #     with open(filename, "w") as f:
-            #         f.write(self.text_area.toPlainText())
+            filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")
+            video_stream.download(filename=filename)
             pass
         pass
     pass
@@ -105,17 +114,21 @@ class YouTubePlayer(QWidget):
         print(f"id of inputed video is: {id}")
         emb_video_link = "https://www.youtube.com/embed/" + str(id)
         self.webview.setUrl(QUrl(emb_video_link))
-        self.curr_video_link = id
+        self.curr_video_link = video_link
 
     def about_qtube(self):
-        pass
+        """shows info about Q-Tube"""
+        msgBox = QtWidgets.QMessageBox()
+        #self.text = QtWidgets.QLabel("Hello World")
+        #self.text.setAlignment(QtCore.Qt.AlignCenter)
+        msgBox.setWindowTitle("Aboout Q-Tube")
+        msgBox.setText("Q-Tube \n Created by @aleksejalex \n Copyright AG 2023")
+        msgBox.exec()
 
 
     def quit_qtube(self):
         """Safely quits."""
         self.close()
-
-
 
 
 if __name__ == "__main__":
