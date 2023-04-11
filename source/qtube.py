@@ -11,6 +11,7 @@ from PySide6 import QtWidgets
 from PySide6.QtCore import Qt, QUrl
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog
+from PySide6.QtWidgets import QListWidget, QListWidgetItem  # for show_list() via msgBox
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from pytube import extract
 import pytube as pt
@@ -68,10 +69,40 @@ class YouTubePlayer(QWidget):
         self.setLayout(layout)
 
     def offer_streams(self, video_obj):
+        """ input: video_obj (type = <pytube.__main__.YouTube object: ...>)
+        :return: `itag` of a stream """
         # todo impl 'offer_streams'
         id_of_stream = 0
-
+        list_of_streams = list(video_obj.streams)  # now type = 'list'
+        num_of_selected_item = self.show_list(list_of_streams)
+        id_of_stream = list_of_streams[num_of_selected_item].itag
         return id_of_stream
+
+    def show_list(self, items):
+        # Create a QListWidget
+        list_widget = QListWidget()
+        # Add items to the list
+        for item in items:
+            #for qtube purposes, 'item' is pytube.Stream, so I need to convert it to text
+            list_item = QListWidgetItem(item)
+            list_widget.addItem(list_item)
+        # Show the message box with the list widget as its contents
+        message_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question, "Select an item", "Please select an item:",
+                                            QtWidgets.QMessageBox.Cancel)
+        message_box.setEscapeButton(QtWidgets.QMessageBox.Cancel)
+        message_box.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
+
+        message_box.layout().addWidget(list_widget)
+
+        result = message_box.exec()
+
+        # Return the index of the selected item
+        if result == QtWidgets.QMessageBox.Ok:
+            selected_item = list_widget.currentItem()
+            selected_index = list_widget.row(selected_item)
+            return selected_index
+        else:
+            return None
 
     def download_video(self):
         """
@@ -83,26 +114,19 @@ class YouTubePlayer(QWidget):
             msgBox.setText("No link provided!")
             msgBox.exec()
         else:
-            # Get video with stream
-            # Download file
-            # url_chameleon = 'https://www.youtube.com/watch?v=VtFRWaC-aU4'
-            print(type(self.curr_video_link))
             video_obj = pt.YouTube(self.curr_video_link)
-            # this will print out all possibilities, select that stream, which suits you and identify it by its index
-            # number
-            id_of_stream = self.offer_streams(video_obj)
-            video_stream = video_obj.streams.get_by_itag(134)  # that number you can get with previous line of the code
-            # video_stream.download(filename="title_of_the_video.mp4")
+            # video_stream = video_obj.streams.get_by_itag(itag)
+            video_stream = video_obj.streams.get_highest_resolution()
             print(video_obj.title)
-            # Choose where to save it
             # Open a file dialog to get the filename and path to save the file
             filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")
             # todo progress bar in window
-            video_stream.download(filename=filename)
-            pass
-        pass
-
-    pass
+            msgDownloading = QtWidgets.QMessageBox()
+            msgDownloading.setText("Your video is downloading... \n Please be patient! \a")
+            msgDownloading.exec()
+            video_stream.download(filename=filename)  # saves the video to chosen location with choosen name
+            msgDownloading.close()
+            #sys.exit(msgDownloading.exec())
 
     def show_video(self):
         """
