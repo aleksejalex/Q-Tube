@@ -16,7 +16,6 @@ from pytube import extract
 import pytube as pt
 
 
-
 class YouTubePlayer(QWidget):
     def __init__(self):
         super().__init__()
@@ -30,7 +29,7 @@ class YouTubePlayer(QWidget):
 
         # Create web engine view widget
         self.webview = QWebEngineView(self)
-        #self.webview.setUrl(QUrl("https://www.youtube.com/embed/nE_MF2fwbA4"))  # Khrennikov video
+        # self.webview.setUrl(QUrl("https://www.youtube.com/embed/nE_MF2fwbA4"))  # Khrennikov video
         self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))
 
         # Create 'address bar'
@@ -60,7 +59,7 @@ class YouTubePlayer(QWidget):
         layout3.addWidget(self.btn_show)
         layout3.addWidget(self.btn_about)
         layout3.addWidget(self.btn_quit)
-        #layout3.addWidget(self.btn_some)
+        # layout3.addWidget(self.btn_some)
 
         # Connect and fill layouts in correct order
         layout.addLayout(layout2)
@@ -69,7 +68,7 @@ class YouTubePlayer(QWidget):
         self.setLayout(layout)
 
     def offer_streams(self, video_obj):
-        # todo impl
+        # todo impl 'offer_streams'
         id_of_stream = 0
 
         return id_of_stream
@@ -79,7 +78,7 @@ class YouTubePlayer(QWidget):
             tba
         """
         if self.curr_video_link is None or self.curr_video_link == "":
-            #raise BaseException("No link provided!")
+            # raise BaseException("No link provided!")
             msgBox = QtWidgets.QMessageBox()
             msgBox.setText("No link provided!")
             msgBox.exec()
@@ -98,9 +97,11 @@ class YouTubePlayer(QWidget):
             # Choose where to save it
             # Open a file dialog to get the filename and path to save the file
             filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")
+            # todo progress bar in window
             video_stream.download(filename=filename)
             pass
         pass
+
     pass
 
     def show_video(self):
@@ -119,12 +120,12 @@ class YouTubePlayer(QWidget):
     def about_qtube(self):
         """shows info about Q-Tube"""
         msgBox = QtWidgets.QMessageBox()
-        #self.text = QtWidgets.QLabel("Hello World")
-        #self.text.setAlignment(QtCore.Qt.AlignCenter)
+        # self.text = QtWidgets.QLabel("Hello World")
+        # self.text.setAlignment(QtCore.Qt.AlignCenter)
+        # todo add nice format in msgBox
         msgBox.setWindowTitle("Aboout Q-Tube")
         msgBox.setText("Q-Tube \n Created by @aleksejalex \n Copyright AG 2023")
         msgBox.exec()
-
 
     def quit_qtube(self):
         """Safely quits."""
