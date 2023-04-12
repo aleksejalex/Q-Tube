@@ -7,14 +7,14 @@ Answer:
 
 import sys
 
-from PySide6 import QtWidgets
-from PySide6.QtCore import Qt, QUrl
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog
-from PySide6.QtWidgets import QListWidget, QListWidgetItem  # for show_list() via msgBox
-from PySide6.QtWebEngineWidgets import QWebEngineView
-from pytube import extract
 import pytube as pt
+from PySide6 import QtWidgets
+from PySide6.QtCore import QUrl
+from PySide6.QtGui import QIcon
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog, \
+    QLabel
+from pytube import extract
 
 
 class YouTubePlayer(QWidget):
@@ -30,10 +30,13 @@ class YouTubePlayer(QWidget):
 
         # Create web engine view widget
         self.webview = QWebEngineView(self)
-        # self.webview.setUrl(QUrl("https://www.youtube.com/embed/nE_MF2fwbA4"))  # Khrennikov video
         self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))
 
         # Create 'address bar'
+        self.instruction_label = QLabel(
+            #"<center> Bla <b> blA</b> </center>"
+            '<ol><li>Insert (Ctrl+V) link to your YouTube video.</li> <li>Click Show to preview it below.</li> <li>Click Download to save video in best available quality on your machine.</li>  <li>Enjoy!</li> </ol>'
+        )
         self.address_bar = QLineEdit()
         # Create buttons
         self.btn_download = QPushButton(text="Download")
@@ -53,6 +56,8 @@ class YouTubePlayer(QWidget):
         layout2 = QVBoxLayout()
         layout3 = QVBoxLayout()
 
+        # Adding widgets to defined layouts
+        layout2.addWidget(self.instruction_label)
         layout2.addWidget(self.address_bar)
         layout2.addWidget(self.webview)
 
@@ -62,10 +67,15 @@ class YouTubePlayer(QWidget):
         layout3.addWidget(self.btn_quit)
         # layout3.addWidget(self.btn_some)
 
+        # fixing ratio in which `layout2` distributes space for widgets inside it
+        layout2.setStretchFactor(self.instruction_label, 1)
+        layout2.setStretchFactor(self.webview, 9)
+
         # Connect and fill layouts in correct order
         layout.addLayout(layout2)
         layout.addLayout(layout3)
 
+        # Setting main layout
         self.setLayout(layout)
 
     def download_video(self):
@@ -77,6 +87,7 @@ class YouTubePlayer(QWidget):
         if self.curr_video_link is None or self.curr_video_link == "":
             # raise BaseException("No link provided!")
             msgBox = QtWidgets.QMessageBox()
+            msgBox.setWindowTitle("Warning")
             msgBox.setWindowIcon(QIcon("warning.png"))
             msgBox.setText("No link provided!")
             msgBox.exec()
@@ -84,8 +95,7 @@ class YouTubePlayer(QWidget):
             video_obj = pt.YouTube(self.curr_video_link)
             video_stream = video_obj.streams.get_highest_resolution()
             print(video_obj.title)
-            # Open a file dialog to get the filename and path to save the file
-            filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")
+            filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")  # opens a file save dialog
             # todo progress bar in window
             msgDownloading = QtWidgets.QMessageBox()
             msgDownloading.setWindowIcon(QIcon("youtube.png"))
@@ -93,7 +103,7 @@ class YouTubePlayer(QWidget):
             msgDownloading.exec()
             video_stream.download(filename=filename)  # saves the video to chosen location with choosen name
             msgDownloading.close()
-            #sys.exit(msgDownloading.exec())
+            # sys.exit(msgDownloading.exec())
 
     def show_video(self):
         """
@@ -104,7 +114,9 @@ class YouTubePlayer(QWidget):
         if self.curr_video_link is None or self.curr_video_link == "":
             # raise BaseException("No link provided!")
             msgBox = QtWidgets.QMessageBox()
+            msgBox.setWindowTitle("Warning")
             msgBox.setText("No link provided!")
+            msgBox.setWindowIcon(QIcon("warning.png"))
             msgBox.exec()
         else:
             print(f"User entered link >>>{self.curr_video_link}<<<")
@@ -122,13 +134,10 @@ class YouTubePlayer(QWidget):
         # todo add nice format in msgBox
         msgBox.setWindowTitle("About Q-Tube")
         msgBox.setWindowIcon(QIcon("youtube.png"))
-        msgBox.setText('<h1 style="text-align:center"><span style="font-family:Georgia,serif">Q-Tube</span></h1><p>(read as something in between of &quot;YouTube&quot; and &quot;Cute Tube&quot;)<br /><br />By&nbsp;<a href="https://github.com/aleksejalex">@aleksejalex</a>&nbsp;in 2023<br /><br />YouTube video downloader with GUI written in PyQt6</p>')
-        #msgBox.setText("<center><b> <font color='red'>Q-Tube</font></b></center> <br><br> Created by @aleksejalex \n Copyright AG 2023")
-
-        #msgBox.setText("<h3>Formatted Text Example</h3>"
-        #         "<p>This is an example of <b>bold text</b> and <i>italic text</i> in a QMessageBox.</p>"
-        #         "<p>You can also use <font color='red'>different colors</font> and <u>underlined text</u>.</p>")
-
+        msgBox.setText(
+            '<h1 style="text-align:center"><span style="font-family:Georgia,serif"><font color="red">Q-Tube</font></span></h1><p>(read as something in between of &quot;YouTube&quot; and &quot;Cute Tube&quot;)<br /><br /> &#169; &nbsp;<a href="https://github.com/aleksejalex">@aleksejalex</a>&nbsp; <br> Made in Czech Republic in 2023<br /><br />YouTube video downloader with GUI written in PyQt6</p>'
+            '<p><strong>Disclaimer:</strong> Neither this app nor its creator have any legal rights on content of YouTube&#8482;. You download any files from youtube.com at your own risk. Respecting copyrights is user&#39;s responsibility.</p>'
+        )
         msgBox.exec()
 
     def quit_qtube(self):
