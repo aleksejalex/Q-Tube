@@ -4,7 +4,7 @@ Answer:
 
 20230321
 """
-
+import os
 import sys
 
 import pytube as pt
@@ -15,6 +15,8 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog, \
     QLabel
 from pytube import extract
+
+from texts_for_UI import text_for_instruction_label, text_for_patience_msgbox, text_for_about_msgbox
 
 
 class YouTubePlayer(QWidget):
@@ -33,10 +35,7 @@ class YouTubePlayer(QWidget):
         self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))
 
         # Create 'address bar'
-        self.instruction_label = QLabel(
-            #"<center> Bla <b> blA</b> </center>"
-            '<ol><li>Insert (Ctrl+V) link to your YouTube video.</li> <li>Click Show to preview it below.</li> <li>Click Download to save video in best available quality on your machine.</li>  <li>Enjoy!</li> </ol>'
-        )
+        self.instruction_label = QLabel(text_for_instruction_label)
         self.address_bar = QLineEdit()
         # Create buttons
         self.btn_download = QPushButton(text="Download")
@@ -99,10 +98,12 @@ class YouTubePlayer(QWidget):
             # todo progress bar in window
             msgDownloading = QtWidgets.QMessageBox()
             msgDownloading.setWindowIcon(QIcon("youtube.png"))
-            msgDownloading.setText("Your video is downloading... \n \a\a\a Please be patient! \a\a\a")
+            msgDownloading.setText(text_for_patience_msgbox)
             msgDownloading.exec()
             video_stream.download(filename=filename)  # saves the video to chosen location with choosen name
-            msgDownloading.close()
+            #msgDownloading.close()
+            if os.path.exists(filename):
+                self.address_bar.setText(f"File '{filename}' downloaded succesfully.")
             # sys.exit(msgDownloading.exec())
 
     def show_video(self):
@@ -134,10 +135,7 @@ class YouTubePlayer(QWidget):
         # todo add nice format in msgBox
         msgBox.setWindowTitle("About Q-Tube")
         msgBox.setWindowIcon(QIcon("youtube.png"))
-        msgBox.setText(
-            '<h1 style="text-align:center"><span style="font-family:Georgia,serif"><font color="red">Q-Tube</font></span></h1><p>(read as something in between of &quot;YouTube&quot; and &quot;Cute Tube&quot;)<br /><br /> &#169; &nbsp;<a href="https://github.com/aleksejalex">@aleksejalex</a>&nbsp; <br> Made in Czech Republic in 2023<br /><br />YouTube video downloader with GUI written in PyQt6</p>'
-            '<p><strong>Disclaimer:</strong> Neither this app nor its creator have any legal rights on content of YouTube&#8482;. You download any files from youtube.com at your own risk. Respecting copyrights is user&#39;s responsibility.</p>'
-        )
+        msgBox.setText(text_for_about_msgbox)
         msgBox.exec()
 
     def quit_qtube(self):
