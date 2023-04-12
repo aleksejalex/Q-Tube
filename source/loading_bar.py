@@ -10,6 +10,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QProgressBar, QVBoxLayo
 import sys
 import time
 
+
 class Worker(QThread):
     """Worker thread that performs the work"""
     progress_changed = Signal(int)
@@ -21,6 +22,7 @@ class Worker(QThread):
         for i in range(101):
             self.progress_changed.emit(i)
             time.sleep(0.1)
+
 
 class loading_bar_MaWin(QMainWindow):
     def __init__(self):
