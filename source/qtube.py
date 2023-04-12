@@ -1,8 +1,8 @@
 """
-Question:
-Answer:
+Q-Tube
 
-20230321
+Created by @aleksejalex, on 20230321
+Last edits: 20320312
 """
 import os
 import sys
@@ -100,15 +100,15 @@ class YouTubePlayer(QWidget):
             msgDownloading.setWindowIcon(QIcon("youtube.png"))
             msgDownloading.setText(text_for_patience_msgbox)
             msgDownloading.exec()
-            video_stream.download(filename=filename)  # saves the video to chosen location with choosen name
+            video_stream.download(filename=filename)  # saves the video to chosen location with chosen name
             #msgDownloading.close()
             if os.path.exists(filename):
-                self.address_bar.setText(f"File '{filename}' downloaded succesfully.")
+                self.address_bar.setText(f"File '{filename}' downloaded successfully.")
             # sys.exit(msgDownloading.exec())
 
     def show_video(self):
         """
-        Gets the content of `address_bar` and if there's something, it converts any youtube link to
+        Gets the content of `address_bar` and if there's something, it converts any YouTube link to
         YouTube embed link a nd shows the video in window.
         """
         self.curr_video_link = self.address_bar.text()
@@ -120,19 +120,16 @@ class YouTubePlayer(QWidget):
             msgBox.setWindowIcon(QIcon("warning.png"))
             msgBox.exec()
         else:
-            print(f"User entered link >>>{self.curr_video_link}<<<")
             self.webview.setUrl(QUrl(self.curr_video_link))
             id = extract.video_id(self.curr_video_link)
-            print(f"id of inputed video is: {id}")
+            print(f"id of inputted video is: {id}")
             emb_video_link = "https://www.youtube.com/embed/" + str(id)
             self.webview.setUrl(QUrl(emb_video_link))
 
+    @staticmethod  # new Python culture requires this decorator. I hate to use them, but...
     def about_qtube(self):
         """shows info about Q-Tube"""
         msgBox = QtWidgets.QMessageBox()
-        # self.text = QtWidgets.QLabel("Hello World")
-        # self.text.setAlignment(QtCore.Qt.AlignCenter)
-        # todo add nice format in msgBox
         msgBox.setWindowTitle("About Q-Tube")
         msgBox.setWindowIcon(QIcon("youtube.png"))
         msgBox.setText(text_for_about_msgbox)
