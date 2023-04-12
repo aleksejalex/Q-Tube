@@ -22,7 +22,7 @@ class YouTubePlayer(QWidget):
         super().__init__()
 
         # Set window properties
-        self.setWindowTitle("My Own YouTube Player")
+        self.setWindowTitle("Q-Tube - your friendly YouTube player and downloader")
         self.setWindowIcon(QIcon("youtube.png"))
         self.setMinimumSize(640, 480)
 
@@ -68,61 +68,28 @@ class YouTubePlayer(QWidget):
 
         self.setLayout(layout)
 
-    def offer_streams(self, video_obj):
-        """ input: video_obj (type = <pytube.__main__.YouTube object: ...>)
-        :return: `itag` of a stream """
-        # todo impl 'offer_streams'
-        id_of_stream = 0
-        list_of_streams = list(video_obj.streams)  # now type = 'list'
-        num_of_selected_item = self.show_list(list_of_streams)
-        id_of_stream = list_of_streams[num_of_selected_item].itag
-        return id_of_stream
-
-    def show_list(self, items):
-        # Create a QListWidget
-        list_widget = QListWidget()
-        # Add items to the list
-        for item in items:
-            #for qtube purposes, 'item' is pytube.Stream, so I need to convert it to text
-            list_item = QListWidgetItem(item)
-            list_widget.addItem(list_item)
-        # Show the message box with the list widget as its contents
-        message_box = QtWidgets.QMessageBox(QtWidgets.QMessageBox.Question, "Select an item", "Please select an item:",
-                                            QtWidgets.QMessageBox.Cancel)
-        message_box.setEscapeButton(QtWidgets.QMessageBox.Cancel)
-        message_box.setStandardButtons(QtWidgets.QMessageBox.Ok | QtWidgets.QMessageBox.Cancel)
-
-        message_box.layout().addWidget(list_widget)
-
-        result = message_box.exec()
-
-        # Return the index of the selected item
-        if result == QtWidgets.QMessageBox.Ok:
-            selected_item = list_widget.currentItem()
-            selected_index = list_widget.row(selected_item)
-            return selected_index
-        else:
-            return None
-
     def download_video(self):
         """
-            tba
+        gets provided link from `address_bar` and if its valid link, the video (in the best
+        available quality) is downloaded. Location and name dialog is raised.
         """
+        self.curr_video_link = self.address_bar.text()
         if self.curr_video_link is None or self.curr_video_link == "":
             # raise BaseException("No link provided!")
             msgBox = QtWidgets.QMessageBox()
+            msgBox.setWindowIcon(QIcon("warning.png"))
             msgBox.setText("No link provided!")
             msgBox.exec()
         else:
             video_obj = pt.YouTube(self.curr_video_link)
-            # video_stream = video_obj.streams.get_by_itag(itag)
             video_stream = video_obj.streams.get_highest_resolution()
             print(video_obj.title)
             # Open a file dialog to get the filename and path to save the file
             filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")
             # todo progress bar in window
             msgDownloading = QtWidgets.QMessageBox()
-            msgDownloading.setText("Your video is downloading... \n Please be patient! \a")
+            msgDownloading.setWindowIcon(QIcon("youtube.png"))
+            msgDownloading.setText("Your video is downloading... \n \a\a\a Please be patient! \a\a\a")
             msgDownloading.exec()
             video_stream.download(filename=filename)  # saves the video to chosen location with choosen name
             msgDownloading.close()
@@ -130,16 +97,22 @@ class YouTubePlayer(QWidget):
 
     def show_video(self):
         """
-
+        Gets the content of `address_bar` and if there's something, it converts any youtube link to
+        YouTube embed link a nd shows the video in window.
         """
-        video_link = self.address_bar.text()
-        print(f"User entered link >>>{video_link}<<<")
-        self.webview.setUrl(QUrl(video_link))
-        id = extract.video_id(video_link)
-        print(f"id of inputed video is: {id}")
-        emb_video_link = "https://www.youtube.com/embed/" + str(id)
-        self.webview.setUrl(QUrl(emb_video_link))
-        self.curr_video_link = video_link
+        self.curr_video_link = self.address_bar.text()
+        if self.curr_video_link is None or self.curr_video_link == "":
+            # raise BaseException("No link provided!")
+            msgBox = QtWidgets.QMessageBox()
+            msgBox.setText("No link provided!")
+            msgBox.exec()
+        else:
+            print(f"User entered link >>>{self.curr_video_link}<<<")
+            self.webview.setUrl(QUrl(self.curr_video_link))
+            id = extract.video_id(self.curr_video_link)
+            print(f"id of inputed video is: {id}")
+            emb_video_link = "https://www.youtube.com/embed/" + str(id)
+            self.webview.setUrl(QUrl(emb_video_link))
 
     def about_qtube(self):
         """shows info about Q-Tube"""
@@ -147,8 +120,15 @@ class YouTubePlayer(QWidget):
         # self.text = QtWidgets.QLabel("Hello World")
         # self.text.setAlignment(QtCore.Qt.AlignCenter)
         # todo add nice format in msgBox
-        msgBox.setWindowTitle("Aboout Q-Tube")
-        msgBox.setText("Q-Tube \n Created by @aleksejalex \n Copyright AG 2023")
+        msgBox.setWindowTitle("About Q-Tube")
+        msgBox.setWindowIcon(QIcon("youtube.png"))
+        msgBox.setText('<h1 style="text-align:center"><span style="font-family:Georgia,serif">Q-Tube</span></h1><p>(read as something in between of &quot;YouTube&quot; and &quot;Cute Tube&quot;)<br /><br />By&nbsp;<a href="https://github.com/aleksejalex">@aleksejalex</a>&nbsp;in 2023<br /><br />YouTube video downloader with GUI written in PyQt6</p>')
+        #msgBox.setText("<center><b> <font color='red'>Q-Tube</font></b></center> <br><br> Created by @aleksejalex \n Copyright AG 2023")
+
+        #msgBox.setText("<h3>Formatted Text Example</h3>"
+        #         "<p>This is an example of <b>bold text</b> and <i>italic text</i> in a QMessageBox.</p>"
+        #         "<p>You can also use <font color='red'>different colors</font> and <u>underlined text</u>.</p>")
+
         msgBox.exec()
 
     def quit_qtube(self):
