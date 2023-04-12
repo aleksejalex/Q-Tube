@@ -8,13 +8,13 @@ import os
 import sys
 
 import pytube as pt
+from pytube import extract
 from PySide6 import QtWidgets
 from PySide6.QtCore import QUrl
 from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog, \
     QLabel
-from pytube import extract
 
 from texts_for_UI import text_for_instruction_label, text_for_patience_msgbox, text_for_about_msgbox
 
@@ -104,7 +104,6 @@ class YouTubePlayer(QWidget):
             #msgDownloading.close()
             if os.path.exists(filename):
                 self.address_bar.setText(f"File '{filename}' downloaded successfully.")
-            # sys.exit(msgDownloading.exec())
 
     def show_video(self):
         """

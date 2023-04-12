@@ -6,3 +6,4 @@ source/.idea/.gitignore.bak
 .gitignore.bak
 source/mbox_text_formattig.py
 source/bond_2.mp4
+*.pyc
