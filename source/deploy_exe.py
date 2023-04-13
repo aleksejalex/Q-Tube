@@ -5,6 +5,7 @@
 import os
 import subprocess
 
+import PyInstaller
 
 def create_exe(script_path):
     """
