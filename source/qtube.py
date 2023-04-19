@@ -33,7 +33,8 @@ class YouTubePlayer(QWidget):
 
         # Create web engine view widget
         self.webview = QWebEngineView(self)
-        self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))
+        #self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))  # easter egg
+        self.webview.setUrl(QUrl("https://raw.githubusercontent.com/aleksejalex/Q-Tube/master/source/youtube.png"))
 
         # Create 'address bar'
         self.instruction_label = QLabel(text_for_instruction_label)
