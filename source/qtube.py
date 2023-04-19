@@ -147,3 +147,8 @@ if __name__ == "__main__":
     player.show()
 
     sys.exit(app.exec())
+
+
+
+
+
