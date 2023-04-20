@@ -17,7 +17,8 @@ from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QApplication, QWidget, QVBoxLayout, QPushButton, QHBoxLayout, QLineEdit, QFileDialog, \
     QLabel
 
-from texts_for_UI import text_for_instruction_label, text_for_patience_msgbox, text_for_about_msgbox
+from texts_for_UI import text_for_instruction_label, text_for_patience_msgbox, text_for_about_msgbox, \
+    text_for_instruction_label_done
 
 
 class YouTubePlayer(QWidget):
@@ -33,7 +34,7 @@ class YouTubePlayer(QWidget):
 
         # Create web engine view widget
         self.webview = QWebEngineView(self)
-        #self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))  # easter egg
+        # self.webview.setUrl(QUrl("https://www.youtube.com/embed/9AxYOmYKpZg"))  # easter egg
         self.webview.setUrl(QUrl("https://raw.githubusercontent.com/aleksejalex/Q-Tube/master/source/youtube.png"))
 
         # Create 'address bar'
@@ -43,7 +44,7 @@ class YouTubePlayer(QWidget):
         self.btn_download = QPushButton(text="Download")
         self.btn_show = QPushButton(text="Show")
         self.btn_quit = QPushButton(text="Quit")
-        self.btn_some = QPushButton(text="Download")
+        self.btn_some = QPushButton(text="Does nothing")
         self.btn_about = QPushButton(text="About...")
 
         # Connect events to buttons
@@ -93,19 +94,22 @@ class YouTubePlayer(QWidget):
             msgBox.setText("No link provided!")
             msgBox.exec()
         else:
-            video_obj = pt.YouTube(self.curr_video_link)
-            video_stream = video_obj.streams.get_highest_resolution()
-            print(video_obj.title)
-            filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")  # opens a file save dialog
-            # todo progress bar in window
-            msgDownloading = QtWidgets.QMessageBox()
-            msgDownloading.setWindowIcon(QIcon("youtube.png"))
-            msgDownloading.setText(text_for_patience_msgbox)
-            msgDownloading.exec()
-            video_stream.download(filename=filename)  # saves the video to chosen location with chosen name
-            #msgDownloading.close()
-            if os.path.exists(filename):
-                self.address_bar.setText(f"File '{filename}' downloaded successfully.")
+            try:
+                video_obj = pt.YouTube(self.curr_video_link)
+                video_stream = video_obj.streams.get_highest_resolution()
+                print(video_obj.title)
+                filename, _ = QFileDialog.getSaveFileName(self, "Save File", ".mp4")  # opens a file save dialog
+                video_stream.download(filename=filename)  # saves the video to chosen location with chosen name
+                if os.path.exists(filename):
+                    self.address_bar.setText(f"File '{filename}' downloaded successfully.")
+                    self.instruction_label.setText(text_for_instruction_label_done)
+            except pt.exceptions.RegexMatchError:
+                print("Invalid link. Exception was caught.")
+                msgBox = QtWidgets.QMessageBox()
+                msgBox.setWindowTitle("Warning")
+                msgBox.setWindowIcon(QIcon("warning.png"))
+                msgBox.setText("Invalid link.")
+                msgBox.exec()
 
     def show_video(self):
         """
@@ -122,10 +126,18 @@ class YouTubePlayer(QWidget):
             msgBox.exec()
         else:
             self.webview.setUrl(QUrl(self.curr_video_link))
-            id = extract.video_id(self.curr_video_link)
-            print(f"id of inputted video is: {id}")
-            emb_video_link = "https://www.youtube.com/embed/" + str(id)
-            self.webview.setUrl(QUrl(emb_video_link))
+            try:
+                id = extract.video_id(self.curr_video_link)
+                print(f"id of inputted video is: {id}")
+                emb_video_link = "https://www.youtube.com/embed/" + str(id)
+                self.webview.setUrl(QUrl(emb_video_link))
+            except pt.exceptions.RegexMatchError:
+                print("Invalid link. Exception was caught.")
+                msgBox = QtWidgets.QMessageBox()
+                msgBox.setWindowTitle("Warning")
+                msgBox.setWindowIcon(QIcon("warning.png"))
+                msgBox.setText("Invalid link.")
+                msgBox.exec()
 
     @staticmethod  # new Python culture requires this decorator. I hate to use them, but...
     def about_qtube(self):
@@ -148,8 +160,3 @@ if __name__ == "__main__":
     player.show()
 
     sys.exit(app.exec())
-
-
-
-
-

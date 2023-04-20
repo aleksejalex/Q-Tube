@@ -8,6 +8,23 @@ text_for_instruction_label = "<ol><li>Insert (Ctrl+V) link to your YouTube video
                              "below.</li> <li>Click Download to save video in best available quality on your " \
                              "machine.</li>  <li>Enjoy!</li> </ol>"
 
+# text_for_instruction_label_done = "<ol><li>Insert (Ctrl+V) link to your YouTube video.</li> <li>Click Show to preview " \
+#                                   "it " \
+#                              "below.</li> <li>Click Download to save video in best available quality on your " \
+#                              "machine.</li>  <li>Enjoy!</li> </ol> <br> <p style='text-align:center'><span " \
+#                                   "style='font-family:Courier New,Courier,monospace'><span " \
+#                                   "style='font-size:18px'><strong><span " \
+#                                   "style='color:#27ae60'>Done!</span></strong></span></span></p>"
+
+text_for_instruction_label_done = "<p> <ol> " \
+                                  "<li> Insert (Ctrl+V) link to your YouTube video.</li> <li>Click Show to preview it below. </li>" \
+                                  "<li> Click Download to save video in best available quality on your machine.</li> " \
+                                  "<li> Enjoy!</li> </ol> " \
+                                  "<center> <span " \
+                                  "style='font-family:Courier New,Courier,monospace'>" \
+                                  "<span style='font-size:18px'><strong>" \
+                                  "<span style='color:#27ae60'>Done!</span></strong></span></span></center></p>"
+
 text_for_patience_msgbox = "Your video is downloading... \n \a\a\a Please be patient! \a\a\a"
 
 text_for_about_msgbox = '<h1 style="text-align:center"><span style="font-family:Georgia,serif"><font ' \
