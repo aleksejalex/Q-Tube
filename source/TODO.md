@@ -3,7 +3,9 @@
 ## Problems:
  - sometimes there is a lag between pressing 'Download' button and
     open file dialog
- - 
+ - after download starts, whole UI freezes (Not responding) until download completes. 
+    Hypothesis: it happens because both video downloader and UI runs on single thread.
+ - a
 
 ## To implement:
  - progress bar during downloading of the video
