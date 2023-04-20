@@ -17,7 +17,7 @@ The purpose of this project is to develop a very simple (both simple to use and 
  
 ## How to run?
 Run Python script `qtube.py` in directory `source`. Be sure you have installed all libraries from `requrements.txt`
-On Windows, you can run `.exe` file without any installation (for download in [Release section of repo](https://github.com/aleksejalex/Q-Tube/releases))
+On Windows, you can run `.exe` file without any installation (for download in [Release section of repo](https://github.com/aleksejalex/Q-Tube/tags))
 
 ## What can you do if you like Q-Tube?
 You are highly welcome to:
