@@ -2,7 +2,7 @@
 (read as smth in between "YouTube" and "Cute Tube")
 
 By [@aleksejalex](https://github.com/aleksejalex)
-
+ 
 ## Few words about...
 ### YouTube video downloader with GUI written in Qt6
 Desktop app built in Python using [pytube](https://pytube.io) and [PySide6 (Qt6)](https://doc.qt.io/qtforpython/quickstart.html)
@@ -16,8 +16,9 @@ The purpose of this project is to develop a very simple (both simple to use and 
  - GUI looks good *both* on Windows and Linux (thanks to Qt6)
  
 ## How to run?
-Run Python script `qtube.py` in directory `source`. Be sure you have installed all libraries from `requrements.txt`
-On Windows, you can run `.exe` file without any installation (for download in [Release section of repo](https://github.com/aleksejalex/Q-Tube/tags))
+Run Python script `qtube.py` in directory `source`. Be sure you have installed all libraries from `requirements.txt`.
+
+On Windows, you can run `.exe` file without any installation (for download in [Release section of repo](https://github.com/aleksejalex/Q-Tube/tags)).
 
 ## What can you do if you like Q-Tube?
 You are highly welcome to:
