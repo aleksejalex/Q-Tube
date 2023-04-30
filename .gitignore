@@ -14,3 +14,4 @@ source/qtube.spec
 *.exe
 source/nothing_yet.py
 source/qtube_backup_before_error_handle.py
+*.bak
