@@ -26,6 +26,7 @@ class YouTubePlayer(QWidget):
         super().__init__()
 
         # Set window properties
+        self.__version = "1.3"
         self.setWindowTitle("Q-Tube - your friendly YouTube player and downloader")
         self.setWindowIcon(QIcon("youtube.png"))
         self.setMinimumSize(640, 480)
