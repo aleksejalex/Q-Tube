@@ -1,4 +1,4 @@
-pip==23.1.2
+pip==23.3
 PySide6==6.5.1.1
 setuptools==68.0.0
 shiboken6==6.5.1.1
