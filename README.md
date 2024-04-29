@@ -29,7 +29,8 @@ You are highly welcome to:
 ## Is there a problem?
 If something doesn't work or Q-Tube is not doing what you want it to do, please open an issue. This app is in intensive development, and any feedback is highly appreciated.
 
- 
+## Changelog
+ - **20240430**: updated requirements, checked and tested, implemented a simple GitHub Action to test... New release.
  
 
 
