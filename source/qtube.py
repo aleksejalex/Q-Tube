@@ -26,7 +26,7 @@ class YouTubePlayer(QWidget):
         super().__init__()
 
         # Set window properties
-        self.__version = "1.5"
+        self.__version = "1.7"
         self.setWindowTitle("Q-Tube - your friendly YouTube player and downloader")
         self.setWindowIcon(QIcon("youtube.png"))
         self.setMinimumSize(640, 480)
@@ -144,7 +144,7 @@ class YouTubePlayer(QWidget):
     def about_qtube(self):
         """shows info about Q-Tube"""
         msgBox = QtWidgets.QMessageBox()
-        msgBox.setWindowTitle("About Q-Tube")
+        msgBox.setWindowTitle(f"About Q-Tube")  # todo: add app version to be printed here explicitly
         msgBox.setWindowIcon(QIcon("youtube.png"))
         msgBox.setText(text_for_about_msgbox)
         msgBox.exec()
