@@ -15,3 +15,6 @@ source/qtube.spec
 source/nothing_yet.py
 source/qtube_backup_before_error_handle.py
 *.bak
+/output
+source/my_video
+*.mp4
