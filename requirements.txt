@@ -2,6 +2,6 @@ PySide6==6.7.2
 PySide6_Addons==6.7.2
 PySide6_Essentials==6.7.2
 pytube==15.0.0
-setuptools==71.0.0
+setuptools==78.1.1
 shiboken6==6.7.2
 wheel==0.43.0
